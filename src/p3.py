@@ -48,13 +48,13 @@ print("Bright Pixels:", w)
 print("Gray Pixels:", g)
 
 # imshow function is native to C++, so we may find a Python alternative for displaying a greyscale reduction image
-#imshow("abc", M);
-#imwrite("abc.png", M);
-#waitKey(0);
+cv.imshow("abc", M)
+cv.imwrite("abc.png", M)
+cv.waitKey(0)
 
-R = M
-k = 0
-t, m = 0, 0
+R = M # Any reason we assign to a new variable?
+k = 0 # This is the count of pixels in an object
+t, m = 0, 0 # Total objects and largest object
 
 # BFS approach to counting cells, because it's easier to visualize
 # DFS approach is laid out here: https://www.geeksforgeeks.org/find-the-number-of-islands-using-dfs/
@@ -101,6 +101,6 @@ for i in range(r):
         k = 0
         white = 0
     
-print("Total Chunks:", t)
-print("Largest Chunk:", m)
+print("Total objects:", t)
+print("Largest object:", m)
 print(cells)
