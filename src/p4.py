@@ -1,8 +1,84 @@
 # Greg Howard & Srikanth Bonkuri
 
-#PCA
+import pandas as pd
+from sklearn.decomposition import PCA
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+df = pd.read_csv('data/example.csv')
+
+print(df)
+
+# Conduct principal components analysis
+X = df
+pca = PCA(n_components=2)
+pca.fit(X)
+print('PCA Mean: ' + str(pca.mean_[1:3]))
+print('PCA Explained Variance Ratio: ' + str(pca.explained_variance_ratio_))
+print() # New line
+
+# Plot Data
+fig, ax = plt.subplots(1, 2, figsize=(16, 6)) # Change code for figsize due to deprecation warning
+fig.subplots_adjust(left=0.0625, right=0.95, wspace=0.1)
+
+ax[0].scatter(X['Area'], X['% White'], alpha=0.2)
+ax[0].set_title('Cell Area by Percentage White')
+ax[0].set_xlabel('Area / Total Pixel Count')
+ax[0].set_ylabel('Percentage of White Pixels')
+
+# Calculate Log Data
+def log_function(x):
+    return math.log(x)
+
+def sum_function(x):
+    return x + 0.01
+
+X['log_Area'] = X['Area'].transform(log_function)
+'''X['dummy_White'] = X['% White'].transform(sum_function)
+X['log_%White'] = X['dummy_White'].transform(log_function)'''
+
+
+ax[1].scatter(X['log_Area'], X['% White'], alpha=0.2)
+ax[1].set_title('log(Cell Area) by Percentage White')
+ax[1].set_xlabel('Area / Total Pixel Count')
+ax[1].set_ylabel('Percentage of White Pixels')
+
+plt.savefig('figs/Cell_Area_by_Percentage_White.png')
+
+# Plot principal components
 '''
-'''
+# Use the draw vector function for our plot
+def draw_vector(v0, v1, ax=None):
+    ax = ax or plt.gca()
+    arrowprops=dict(arrowstyle='->',
+                    linewidth=2,
+                    shrinkA=0, shrinkB=0)
+    ax.annotate('', v1, v0, arrowprops=arrowprops)
+
+fig, ax = plt.subplots(1, 2, figsize=(16, 6)) # Change code for figsize due to deprecation warning
+fig.subplots_adjust(left=0.0625, right=0.95, wspace=0.1)
+
+ax[0].scatter(X['Area'], X['% White'], alpha=0.2)
+for length in pca.explained_variance_:
+    print(length)
+for vector in pca.components_:
+    print(vector)
+print(zip(pca.explained_variance_, pca.components_))
+for length, vector in zip(pca.explained_variance_, pca.components_):
+    v = vector * 3 * np.sqrt(length)
+    draw_vector(pca.mean_, pca.mean_ + v, ax=ax[0])
+#ax[0].axis('equal')
+ax[0].set(xlabel='Area', ylabel='Percent of White Pixels', title='input')
+
+X_pca = pca.transform(X)
+ax[1].scatter(X_pca[:, 0], X_pca[:, 1], alpha=0.2)
+draw_vector([0, 0], [0, 3], ax=ax[1])
+draw_vector([0, 0], [3, 0], ax=ax[1])
+ax[1].axis('equal')
+ax[1].set(xlabel='component 1', ylabel='component 2',
+          title='principal components',
+          xlim=(-5, 5), ylim=(-3, 3.1))'''
 
 # Try this K based on what seems optimal from PCA
 '''

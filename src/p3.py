@@ -43,15 +43,16 @@ for i in range(r):
             M[i, j, 2] = 150
 
     
-print("Dark Pixels:", d)
-print("Bright Pixels:", w)
+print("Black Pixels:", d)
+print("White Pixels:", w)
 print("Gray Pixels:", g)
 
-# Display a greyscale reduction image
+# Produce a greyscale reduction image
 # We may consider improving this to allow for naming multiple images differently
-cv.imshow("abc", M)
-cv.imwrite("abc.png", M)
-cv.waitKey(0)
+'''cv.imshow("image_grey", M)
+cv.waitKey(0)'''
+cv.imwrite("data/image_grey.png", M)
+
 
 R = M.copy() # Make a copy so we can still reference the original
 k = 0 # This is the count of pixels in an object
