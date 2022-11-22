@@ -53,7 +53,7 @@ cv.imshow("abc", M)
 cv.imwrite("abc.png", M)
 cv.waitKey(0)
 
-R = M # Any reason we assign to a new variable?
+R = M.copy() # Make a copy so we can still reference the original
 k = 0 # This is the count of pixels in an object
 t, m = 0, 0 # Total objects and largest object
 
@@ -68,7 +68,6 @@ for i in range(r):
     for j in range(c):
         # When encountering a black pixel, reset the pixel count and continue looping
         if R[i,j,0] == 0 and R[i, j, 1] == 0 and R[i, j, 2] == 0:
-            k = 0
             continue
         # If encountering a grey or white pixel, add to queue
         q.append([i, j])
@@ -100,7 +99,7 @@ for i in range(r):
         # Count if greater than 2^5 and add to our cells array
         if k > 32:
             t += 1
-            cells.append([k, white])
+            cells.append([k, "%.2f" % (white*100/k)])
         # Set max if max
         if k > m: m = k
         # Reset counts of k and white pixels
