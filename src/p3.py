@@ -12,6 +12,7 @@ r = len(image)
 c = len(image[0])
 print(r,"x",c)
 print("Total Pixels:", r*c)
+assert(image.size == r*c*len(image[0][0]))
 
 # For now we are handling all pixels in one of 3 categories.
 # We may consider a more nuanced approach based on input from visual studies and cell biology experts.
@@ -22,32 +23,32 @@ g = 0
 M = image
 for i in range(r):
     for j in range(c):
-        #Vec3b color = image.at<Vec3b>(i, j)
-        z = image[i,j,0]   #blue
-        y = image[i,j,1]   #green
-        x = image[i,j,2]   #red
+        z = image[i, j, 0]   #blue
+        y = image[i, j, 1]   #green
+        x = image[i, j, 2]   #red
         if x < 51 and y < 51 and z < 51:
-            d +=1 
-            M[i,j,0] = 0
-            M[i,j,1] = 0
-            M[i,j,2] = 0
+            d += 1 
+            M[i, j, 0] = 0
+            M[i, j, 1] = 0
+            M[i, j, 2] = 0
         elif x > 200 and y > 200 and z > 200:
-            w +=1
-            M[i,j,0] = 250
-            M[i,j,1] = 250
-            M[i,j,2] = 250
+            w += 1
+            M[i, j, 0] = 250
+            M[i, j, 1] = 250
+            M[i, j, 2] = 250
         else:
-            g +=1
-            M[i,j,0] = 150
-            M[i,j,1] = 150
-            M[i,j,2] = 150
+            g += 1
+            M[i, j, 0] = 150
+            M[i, j, 1] = 150
+            M[i, j, 2] = 150
 
     
 print("Dark Pixels:", d)
 print("Bright Pixels:", w)
 print("Gray Pixels:", g)
 
-# imshow function is native to C++, so we may find a Python alternative for displaying a greyscale reduction image
+# Display a greyscale reduction image
+# We may consider improving this to allow for naming multiple images differently
 cv.imshow("abc", M)
 cv.imwrite("abc.png", M)
 cv.waitKey(0)
@@ -62,42 +63,47 @@ q = []  #Queue
 cells = []
 white = 0 # We need to figure out how to get actual count of white pixels per cell
 
+# Loop through all pixels by row and column
 for i in range(r):
     for j in range(c):
+        # When encountering a black pixel, reset the pixel count and continue looping
         if R[i,j,0] == 0 and R[i, j, 1] == 0 and R[i, j, 2] == 0:
             k = 0
             continue
-        q.append([i,j])
-        if R[i,j,0] == 250:
+        # If encountering a grey or white pixel, add to queue
+        q.append([i, j])
+        # Tally if white
+        if R[i, j, 0] == 250 and R[i, j, 1] == 250 and R[i, j, 2] == 250:
             white += 1
+        # Set the pixel black
         R[i, j, 0] = 0
         R[i, j, 1] = 0
         R[i, j, 2] = 0
-        while len(q)!=0:
+        # Process the queue until empty
+        while len(q) != 0:
             result = q[0]
             x = result[0]
             y = result[1]
             q.pop(0)
-            #r[k][l]=0;
-            k += 1
+            k += 1 # Add to the object's pixel count after popping from the queue
             for a in range(x-1, x+2):
                 for b in range(y-1, y+2):
-                    if a < 0 or a >= r or b < 0 or b >= c: continue
-                    if R[a,b,0] == 0 and R[a,b,1] == 0 and R[a,b,2] == 0: continue
-                    q.append([a,b])
-                    if R[i,j,0] == 250:
+                    if a < 0 or a >= r or b < 0 or b >= c: continue # Deal with out of bounds cases
+                    if R[a,b,0] == 0 and R[a,b,1] == 0 or R[a,b,2] == 0: continue # Deal with black pixels
+                    q.append([a, b]) # Add to queue the location of any grey or white pixel
+                    if R[a, b, 2] == 250: # Count if white
                         white += 1
-                    #r[a][b] = 0;
-                    R[a,b,0] = 0
-                    R[a,b,1] = 0
-                    R[a,b,2] = 0
-                
-        if k>32:
-            t +=1
-            cells.append([k, white]) # Not working yet
-            #white = 0
+                    # Set the pixel black
+                    R[a, b, 0] = 0
+                    R[a, b, 1] = 0
+                    R[a, b, 2] = 0
+        # Count if greater than 2^5 and add to our cells array
+        if k > 32:
+            t += 1
+            cells.append([k, white])
+        # Set max if max
         if k > m: m = k
-        #cout<<t<<"*";
+        # Reset counts of k and white pixels
         k = 0
         white = 0
     
