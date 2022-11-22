@@ -50,17 +50,3 @@ Here we have our greyscale reduction of the image, which we produce for easier a
 <img src="data/Cell_Area_by_Percentage_White.png" width="500">
 
 It is easy to see that there is a logarithmic relationship between the area of a cell and the percentage of it that is white. Notably, it's also easy to see that as a cell takes up more pixels, it is also more likely to have a larger proportion of white pixels. This is not surprising, nor is the bundle of scattered dots with 0% white and small total size, because the larger a cell, the more flourescent dye it will hold onto.
-
-## Operational feasibility:
-
-We have held multiple meetings now with the DeNovix team: one with Aroshan Jayasinghe, the Product Development Specialist responsible for the algorithm in CellDrop automated cell counters, and one with Vinsky Muthia, an Application Scientist who helped explain (a) the nature of the cells in the images, and (b) the applications of interest to customers downstream from DeNovix. They have provided many additional images in their corporate Shared Drive, and we can access and request additional files as we may need to. The team is very willing to continue helping us learn, as we develop code and analyses around their images in the coming weeks.
-
-## Areas of research interest:
-
-We are working with hepatocytes (i.e. liver cells) in this test run. These cells can sometimes be identified by the CellDrop algorithm to contain multiple cells in a single cell. This is due to there being lots of organelles in hepatocytes. Perhaps we can more accurately count the hepatocytes.
-
-Other cell lines that are of particular interest include isolated nucleii, as these are particularly relevant to genomic sequencing, and tumospheres, because they take odd shapes where again the stakeholder's algorithm doesn't always count correctly.
-
-The statistical learning we believe could be helpul, once we've cracked some of the computer vision, is clustering methods. We've learned from the stakeholder that identifying non-spherical objects is a really hard challenge. This is in no small part, because the images captured by the cell counters are 2D projections of a 3D volume.
-
-Currently, dye-absorption and size are the primary features used to distinguish between cells of interest and debris. If we can cluster based on shape that will provide a foundation for improvement.
