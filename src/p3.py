@@ -6,7 +6,7 @@ import cv2 as cv # Import the OpenCV library
 
 # For now we are handling a hard coded local images.
 # We may consider improving to have this deal with a series of images.
-image = cv.imread("data/image_green.png")
+image = cv.imread("../data/image_green.png")
 
 r = len(image)
 c = len(image[0])
@@ -62,6 +62,10 @@ t, m = 0, 0 # Total objects and largest object
 # DFS approach is laid out here: https://www.geeksforgeeks.org/find-the-number-of-islands-using-dfs/
 q = []  #Queue
 cells = []
+heights = []
+widths = []
+centroid_x = []
+centroid_y = []
 white = 0 # We need to figure out how to get actual count of white pixels per cell
 
 # Loop through all pixels by row and column
@@ -72,6 +76,8 @@ for i in range(r):
             continue
         # If encountering a grey or white pixel, add to queue
         q.append([i, j])
+        x1, x2 = i, i
+        y1, y2 = j, j
         # Tally if white
         if R[i, j, 0] == 250 and R[i, j, 1] == 250 and R[i, j, 2] == 250:
             white += 1
@@ -86,6 +92,10 @@ for i in range(r):
             y = result[1]
             q.pop(0)
             k += 1 # Add to the object's pixel count after popping from the queue
+            if x<x1: x1 = x
+            if x>x2: x2 = x
+            if y<y1: y1 = y
+            if y>y2: y2 = y
             for a in range(x-1, x+2):
                 for b in range(y-1, y+2):
                     if a < 0 or a >= r or b < 0 or b >= c: continue # Deal with out of bounds cases
@@ -101,12 +111,37 @@ for i in range(r):
         if k > 32:
             t += 1
             cells.append([k, "%.2f" % (white*100/k)])
+            heights.append(y2-y1)
+            widths.append(x2-x1)
+            cx = (x1 + x2)//2
+            cy = (y1 + y2)//2
+            centroid_x.append(cx)
+            centroid_y.append(cy)
+            M[cx, cy, 0] = 0
+            M[cx, cy, 1] = 0
+            M[cx, cy, 2] = 255
+            for a in range(cx-1, cx+2):
+                for b in range(cy-1, cy+2):
+                    if a < 0 or a >= r or b < 0 or b >= c: continue
+                    if M[a,b,0] == 0 and M[a,b,1] == 0 or M[a,b,2] == 0: continue
+                    M[a, b, 0] = 0
+                    M[a, b, 1] = 0
+                    M[a, b, 2] = 255
+                
+            print(y2-y1, x2-x1,"(", cx,",", cy, ")")
         # Set max if max
         if k > m: m = k
         # Reset counts of k and white pixels
         k = 0
         white = 0
     
+'''cv.imshow("image_centroid", M)
+cv.waitKey(0)'''
+cv.imwrite("../data/image_centroid.png", M)
 print("Total objects:", t)
 print("Largest object:", m)
 print(cells)
+print(heights)
+print(widths)
+print(centroid_x)
+print(centroid_y)
