@@ -1,4 +1,4 @@
-# HB Technologies
+# Greg Howard & Srikanth Bonkuri
 
 import cv2
 
