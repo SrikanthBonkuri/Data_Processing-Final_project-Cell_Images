@@ -3,10 +3,11 @@
 # Count the light objects in an image with a dark background
 
 import cv2 as cv # Import the OpenCV library
+import math
 
 # For now we are handling a hard coded local images.
 # We may consider improving to have this deal with a series of images.
-image = cv.imread("../data/image_green.png")
+image = cv.imread("data/image_green.png")
 
 r = len(image)
 c = len(image[0])
@@ -62,11 +63,8 @@ t, m = 0, 0 # Total objects and largest object
 # DFS approach is laid out here: https://www.geeksforgeeks.org/find-the-number-of-islands-using-dfs/
 q = []  #Queue
 cells = []
-heights = []
-widths = []
-centroid_x = []
-centroid_y = []
-white = 0 # We need to figure out how to get actual count of white pixels per cell
+white = 0 # A measure of flourescence (i.e how much dye the cell has absorbed)
+black = 0 # A measure of distortedness (i.e. how non-spherical the cell is)
 
 # Loop through all pixels by row and column
 for i in range(r):
@@ -92,10 +90,10 @@ for i in range(r):
             y = result[1]
             q.pop(0)
             k += 1 # Add to the object's pixel count after popping from the queue
-            if x<x1: x1 = x
-            if x>x2: x2 = x
-            if y<y1: y1 = y
-            if y>y2: y2 = y
+            if x<x1: x1 = x # Find the leftmost pixel
+            if x>x2: x2 = x # Find the rightmost pixel
+            if y<y1: y1 = y # Find the lowest pixel
+            if y>y2: y2 = y # Find the highest pixel
             for a in range(x-1, x+2):
                 for b in range(y-1, y+2):
                     if a < 0 or a >= r or b < 0 or b >= c: continue # Deal with out of bounds cases
@@ -107,16 +105,46 @@ for i in range(r):
                     R[a, b, 0] = 0
                     R[a, b, 1] = 0
                     R[a, b, 2] = 0
-        # Count if greater than 2^5 and add to our cells array
-        if k > 32:
+        # Count if greater than 2^7 and add to our cells array
+        if k > 128:
+            # Get the variables
+            cx = (x1 + x2) // 2
+            cy = (y1 + y2) // 2
+            height = y2 - y1
+            width = x2 - x1
+            hh = height // 2
+            hw = width // 2
+            radius = hh // 4 + hw // 4 # This lets us approximate a circle with the same center
+            circle_area = int(math.pi * radius**2)
+            # Check the count of black pixels within the radius
+            for m in range(height):
+                for n in range(width):
+                    # Calculate distance from the center
+                    if m < hh:
+                        py = int(hh - m)
+                    else:
+                        py = int(m - hh)
+                    if n < hw:
+                        px = int(hw - n)
+                    else:
+                        px = int(n - hw)
+                    d = math.sqrt(px**2 + py**2) # Thanks Pythagoras
+                    # When distance is less than radius, calculate image x and y, then check if black
+                    if d <= radius:
+                        if m < hh and n < hw:
+                            if M[cx - px, cy - py, 0] == 0:
+                                black += 1
+                        elif m < hh and n > hw:
+                            if M[cx + px, cy - py, 0] == 0:
+                                black += 1
+                        elif m > hh and n < hw:
+                            if M[cx - px, cy + py, 0] == 0:
+                                black += 1
+                        else:
+                            if M[cx + px, cy + py, 0] == 0:
+                                black += 1
             t += 1
-            cells.append([k, "%.2f" % (white*100/k)])
-            heights.append(y2-y1)
-            widths.append(x2-x1)
-            cx = (x1 + x2)//2
-            cy = (y1 + y2)//2
-            centroid_x.append(cx)
-            centroid_y.append(cy)
+            cells.append([k, white, height, width, cx, cy, circle_area, black])
             M[cx, cy, 0] = 0
             M[cx, cy, 1] = 0
             M[cx, cy, 2] = 255
@@ -127,21 +155,16 @@ for i in range(r):
                     M[a, b, 0] = 0
                     M[a, b, 1] = 0
                     M[a, b, 2] = 255
-                
-            print(y2-y1, x2-x1,"(", cx,",", cy, ")")
-        # Set max if max
         if k > m: m = k
-        # Reset counts of k and white pixels
+        # Reset counts of k, white pixels, and inner black pixels
         k = 0
         white = 0
+        black = 0
+
     
-'''cv.imshow("image_centroid", M)
-cv.waitKey(0)'''
-cv.imwrite("../data/image_centroid.png", M)
+'''cv.imshow("image_center", M)
+cv.waitKey(0)
+cv.imwrite("data/image_center.png", M)'''
 print("Total objects:", t)
 print("Largest object:", m)
 print(cells)
-print(heights)
-print(widths)
-print(centroid_x)
-print(centroid_y)
