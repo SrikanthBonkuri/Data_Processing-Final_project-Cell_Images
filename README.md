@@ -45,8 +45,21 @@ This is a sample image of hepatocytes that have absorbed acridine orange, glowin
 <img src="data/image_grey.png" width="500">
 Here we have our greyscale reduction of the image, which we produce for easier analysis.
 
-## Part 4: Analyses
+## Part 4: Analysis of Flourescence
 
-<img src="data/Cell_Area_by_Percentage_White.png" width="500">
+<img src="figs/Cell_Area_by_Percentage_White.png" width="500">
 
-It is easy to see that there is a logarithmic relationship between the area of a cell and the percentage of it that is white. Notably, it's also easy to see that as a cell takes up more pixels, it is also more likely to have a larger proportion of white pixels. This is not surprising, nor is the bundle of scattered dots with 0% white and small total size, because the larger a cell, the more flourescent dye it will hold onto.
+White pixels count is a measure of how much of a cell absorbed acridine orange dye. It is easy to see that there is a logarithmic relationship between the area of a cell and the percentage of it that is white. Notably, it's also easy to see that as a cell takes up more pixels, it is also more likely to have a larger proportion of white pixels. This is not surprising, nor is the bundle of scattered dots with 0% white and small total size, because the larger a cell, the more flourescent dye it will hold onto.
+
+## Part 5: Principal Components Analysis
+
+<img src="figs/Explained_Variance_Ratio_by_Factor.png", width="500">
+
+We can see here that among the factors we have tracked 3 of them will explain 95.7% of the variance among the cells and 4 factors can cumulatively explain 98.3%. Once we consider 5 factors, we can explain more than 99% of the variance. Dimensionality reduction is pretty meaningful in the context of our project, considering we may one day want our code to run rapidly on cell counter devices. It is also worth noting that we have standardized the columns to scale them. Otherwise, 'Area' would dominate and explain over 95% of the variance.
+
+In the future, we can produce a proper scree plot to demarcate the elbow beyond which additional factors become largely unimportant.
+
+## Part 6: K-Means Clustering
+
+
+

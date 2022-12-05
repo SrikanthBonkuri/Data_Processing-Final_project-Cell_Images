@@ -4,48 +4,53 @@ import pandas as pd
 from sklearn.decomposition import PCA
 import numpy as np
 import matplotlib.pyplot as plt
-import math
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
 
 df = pd.read_csv('data/example.csv')
 
-print(df)
-
 # Conduct principal components analysis
 X = df
+standardized_X = StandardScaler().fit_transform(X)
 pca = PCA(n_components=8)
-pca.fit(X)
-print('PCA Mean: ' + str(pca.mean_[1:9]))
-print('PCA Explained Variance Ratio: ' + str(pca.explained_variance_ratio_))
-print() # New line
+pca.fit(standardized_X)
 
-# Plot Data
-fig, ax = plt.subplots(1, 2, figsize=(16, 6)) # Change code for figsize due to deprecation warning
-fig.subplots_adjust(left=0.0625, right=0.95, wspace=0.1)
+print('PCA Mean: ' + str(pca.mean_[1:9]) + '\n')
+print('PCA Explained Variance Ratio: ' + str(pca.explained_variance_ratio_)  + '\n')
+print('Cumulative Proportion of Variance: ' + str(np.cumsum(pca.explained_variance_ratio_))  + '\n')
 
-# Show that the brightness of a cell increases with the size
-X['% White'] = round(X['White Pixel Count'] / X['Area'] * 100, 2)
+# Make a scree plot to visualize the number of factors to retain
+x_array=[1, 2, 3, 4, 5, 6, 7, 8]
+var_explained = pd.DataFrame(pca.explained_variance_ratio_)
+sns.barplot(data=var_explained, x=x_array, y=pca.explained_variance_ratio_)
+plt.xlabel('Factor')
+plt.ylabel('Explained Variance Ratio')
+plt.title('Explained Variance Ratio of Each Factor')
+plt.savefig('figs/Explained_Variance_Ratio_by_Factor.png')
+plt.cla()
+plt.clf()
 
-ax[0].scatter(X['Area'], X['% White'], alpha=0.2)
-ax[0].set_title('Cell Area by Percentage White')
-ax[0].set_xlabel('Total Pixel Count')
-ax[0].set_ylabel('Percentage of White Pixels')
+# Credit to Renesh Bedre for the fantastic guide linked below that provided a map for this section
+# https://www.reneshbedre.com/blog/principal-component-analysis.html
+loadings = pca.components_
+count_pc = pca.n_features_
+pc_list = ['PC' + str(i) for i in x_array]
+loadings_df = pd.DataFrame.from_dict(dict(zip(pc_list, loadings)))
+loadings_df['variable'] = df.columns.values
+loadings_df = loadings_df.set_index('variable')
+ax = sns.heatmap(loadings_df, annot=True, cmap='Spectral')
+fig = ax.get_figure()
+fig.subplots_adjust(left=0.24)
+plt.title('Correlation matrix plot for loadings')
+plt.savefig('figs/Correlation_Matrix.png')
 
-# Calculate Log Data
-def log_function(x):
-    return math.log(x)
+'''clf = PCA(4)
+X_trans = clf.fit_transform(standardized_X)
 
-X['log_Area'] = X['Area'].transform(log_function)
-
-# Show the logorithmic relationship
-ax[1].scatter(X['log_Area'], X['% White'], alpha=0.2)
-ax[1].set_title('log(Cell Area) by Percentage White')
-ax[1].set_xlabel('log(Total Pixel Count)')
-ax[1].set_ylabel('Percentage of White Pixels')
-
-plt.savefig('figs/Cell_Area_by_Percentage_White.png')
-
-
-
+pca2 = PCA(2)
+X_trans2 = pca2.fit_transform(standardized_X)
+print(standardized_X.shape)
+print(X_trans2.shape)'''
 # Plot principal components
 '''
 # Use the draw vector function for our plot
@@ -79,37 +84,3 @@ ax[1].axis('equal')
 ax[1].set(xlabel='component 1', ylabel='component 2',
           title='principal components',
           xlim=(-5, 5), ylim=(-3, 3.1))'''
-
-# Try this K based on what seems optimal from PCA
-'''
-# Plot the data with K Means Labels
-from sklearn.cluster import KMeans
-kmeans = KMeans(4, random_state=0)
-labels = kmeans.fit(X).predict(X)
-plt.scatter(X[:, 0], X[:, 1], c=labels, s=40, cmap='viridis')
-'''
-
-# Optional as to whether we want to try to visualize the clusters with hyper-spheres
-# May not work well if our clusters are elliptical, rather than circular
-# GMM may be better: https://github.com/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/05.12-Gaussian-Mixtures.ipynb
-'''
-from scipy.spatial.distance import cdist
-
-def plot_kmeans(kmeans, X, n_clusters=4, rseed=0, ax=None):
-    labels = kmeans.fit_predict(X)
-
-    # plot the input data
-    ax = ax or plt.gca()
-    ax.axis('equal')
-    ax.scatter(X[:, 0], X[:, 1], c=labels, s=40, cmap='viridis', zorder=2)
-
-    # plot the representation of the KMeans model
-    centers = kmeans.cluster_centers_
-    radii = [cdist(X[labels == i], [center]).max()
-             for i, center in enumerate(centers)]
-    for c, r in zip(centers, radii):
-        ax.add_patch(plt.Circle(c, r, fc='#CCCCCC', lw=3, alpha=0.5, zorder=1))
-    
-kmeans = KMeans(n_clusters=4, random_state=0)
-plot_kmeans(kmeans, X)
-'''
