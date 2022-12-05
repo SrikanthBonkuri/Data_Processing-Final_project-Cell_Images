@@ -59,7 +59,11 @@ We can see here that among the factors we have tracked 3 of them will explain 95
 
 In the future, we can produce a proper scree plot to demarcate the elbow beyond which additional factors become largely unimportant.
 
+<img src="figs/Correlation_Matrix.png", width="500">
+
+For additional information, here is the correlation matrix.
+
 ## Part 6: K-Means Clustering
 
-
+Coming soon...
 
