@@ -114,7 +114,7 @@ for i in range(r):
             width = x2 - x1
             hh = height // 2
             hw = width // 2
-            radius = hh // 4 + hw // 4 # This lets us approximate a circle with the same center
+            radius = ( hh + hw ) // 2 # This lets us approximate a circle with the same center
             circle_area = int(math.pi * radius**2)
             # Check the count of black pixels within the radius
             for m in range(height):
