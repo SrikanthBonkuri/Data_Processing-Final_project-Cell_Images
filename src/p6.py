@@ -18,11 +18,11 @@ print(X)
 # Using the elbow method to find the optimal number of clusters
 from sklearn.cluster import KMeans
 wcss = []   # 
-for i in range(1, 11):
+for i in range(1, 9):
     kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
     kmeans.fit(X)
     wcss.append(kmeans.inertia_)
-plt.plot(range(1, 11), wcss)
+plt.plot(range(1, 9), wcss)
 plt.title('The Elbow Method')
 plt.xlabel('Number of clusters')
 plt.ylabel('WCSS')
@@ -37,8 +37,6 @@ y_kmeans = kmeans.fit_predict(X)
 
 print(y_kmeans)
 
-
-
 # Visualising the clusters
 
 plt.scatter(X["Area"][y_kmeans == 0], X["White Percent Area"][y_kmeans == 0], s = 20, c = 'red', label = 'Cluster 1')
@@ -46,7 +44,7 @@ plt.scatter(X["Area"][y_kmeans == 1], X["White Percent Area"][y_kmeans == 1], s 
 plt.scatter(X["Area"][y_kmeans == 2], X["White Percent Area"][y_kmeans == 2], s = 20, c = 'green', label = 'Cluster 3')
 plt.scatter(X["Area"][y_kmeans == 3], X["White Percent Area"][y_kmeans == 3], s = 20, c = 'cyan', label = 'Cluster 4')
 
-plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 50, c = 'black', label = 'Centroids')
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 80, c = 'black', label = 'Centroid', alpha = 0.2)
 
 plt.title('Clusters of cells')
 plt.xlabel('Area (sq.pixel)')
