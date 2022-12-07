@@ -47,30 +47,30 @@ Here we have our greyscale reduction of the image, which we produce for easier a
 
 ## Part 4: Analysis of Flourescence
 
-<img src="figs/Cell_Area_by_Percentage_White.png" width="500">
+<img src="figs/Cell_Area_by_Percentage_White.png" width="900">
 
 White pixels count is a measure of how much of a cell absorbed acridine orange dye. It is easy to see that there is a logarithmic relationship between the area of a cell and the percentage of it that is white. Notably, it's also easy to see that as a cell takes up more pixels, it is also more likely to have a larger proportion of white pixels. This is not surprising, nor is the bundle of scattered dots with 0% white and small total size, because the larger a cell, the more flourescent dye it will hold onto.
 
 ## Part 5: Principal Components Analysis
 
-<img src="figs/Explained_Variance_Ratio_by_Factor.png", width="500">
+<img src="figs/Explained_Variance_Ratio_by_Factor.png" width="500">
 
 We can see here that among the factors we have tracked 3 of them will explain 95.7% of the variance among the cells and 4 factors can cumulatively explain 98.3%. Once we consider 5 factors, we can explain more than 99% of the variance. Dimensionality reduction is pretty meaningful in the context of our project, considering we may one day want our code to run rapidly on cell counter devices. It is also worth noting that we have standardized the columns to scale them. Otherwise, 'Area' would dominate and explain over 95% of the variance.
 
 In the future, we can produce a proper scree plot to demarcate the elbow beyond which additional factors become largely unimportant.
 
-<img src="figs/Covariance_Matrix.png", width="500">
+<img src="figs/Covariance_Matrix.png" width="500">
 
 For additional information, here is the correlation matrix.
 
 ## Part 6: K-Means Clustering
 
-<img src="figs/Elbow_Plot_Kmeans.png", width="500">
+<img src="figs/Elbow_Plot_Kmeans.png" width="500">
 
 Calculating within cluster sum of squares (WCSS), one can figure out the most informative number of clusters. We have plotted the WCSS for 1 through 8 clusters in the elbow plot above and observed that WCSS is reducing substantially and increasingly until k=4 and not very significantly thereafter.
 
 Therefore, we used k-means to identify 4 clusters on two of our most interesting engineered features: White Percent Area and Black Percent Circle. The former is a measure of object fluorescence and the latter is a measure of object sphericity. We have plotted these against Area and Circle Area respectively. The Area is the area of the entire object (i.e. count of contiguous grey and white pixels that make up a cell or clumped neighborhood of cells). The Circle Area is the area of a circle produced on the center of the object with a diameter that is the average of the object’s width and height.
 
-<img src="figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png", width="500">
+<img src="figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png" width="900">
 
 In both charts, it’s easy to see the relationship between clusters and the size of the object. Object size may be single most predictive feature for the variance across the population. It’s also interesting to note that cluster 3 (in moss green) holds only a single anomalous object, with a far larger pixel count than the rest. Perhaps this is multiple overlapping cells. And, it’s curious to see that there is a small cell with a very large percentage of black within its circle area. Likely, this is a slender oval, and perhaps it represents cellular material from a no longer intact cell. Prior to our final submission, we may seek to recreate images with the clusters identified visually for deeper analyses and more intutive analyses.
