@@ -68,4 +68,4 @@ ax[1].set_xlabel('Circle Area')
 ax[1].set_ylabel('Black Percentage of Circle')
 plt.legend(bbox_to_anchor=(1.18, 1))
 
-plt.savefig('figs/Cell_Cluster_Kmeans(Circle Area vs Black Percent).png')
+plt.savefig('figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png')
