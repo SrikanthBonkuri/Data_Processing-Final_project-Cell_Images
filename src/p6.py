@@ -26,7 +26,6 @@ plt.plot(range(1, 9), wcss)
 plt.title('Elbow Plot on number of clusters')
 plt.xlabel('Number of clusters')
 plt.ylabel('WCSS')
-plt.show()
 
 plt.savefig('figs/Elbow_Plot_Kmeans.png')
 
@@ -37,55 +36,36 @@ plt.clf()
 kmeans = KMeans(n_clusters = 4, init = 'k-means++', random_state = 42)
 y_kmeans = kmeans.fit_predict(X)
 
-print(y_kmeans)
+
 
 # Visualising the clusters
 
-plt.scatter(X["Area"][y_kmeans == 0], X["White Percent Area"][y_kmeans == 0], s = 20, c = 'red', label = 'Cluster 1')
-plt.scatter(X["Area"][y_kmeans == 1], X["White Percent Area"][y_kmeans == 1], s = 20, c = 'blue', label = 'Cluster 2')
-plt.scatter(X["Area"][y_kmeans == 2], X["White Percent Area"][y_kmeans == 2], s = 20, c = 'green', label = 'Cluster 3')
-plt.scatter(X["Area"][y_kmeans == 3], X["White Percent Area"][y_kmeans == 3], s = 20, c = 'cyan', label = 'Cluster 4')
+# Plot Data
+fig, ax = plt.subplots(1, 2, figsize=(20, 9)) # Change code for figsize due to deprecation warning
+fig.subplots_adjust(left=0.0625, right=0.9, wspace=0.1)
 
-plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 80, c = 'black', label = 'Centroid', alpha = 0.2)
+ax[0].scatter(X["Area"][y_kmeans == 0], X["White Percent Area"][y_kmeans == 0], s = 20, c = 'red', label = 'Cluster 1')
+ax[0].scatter(X["Area"][y_kmeans == 1], X["White Percent Area"][y_kmeans == 1], s = 20, c = 'blue', label = 'Cluster 2')
+ax[0].scatter(X["Area"][y_kmeans == 2], X["White Percent Area"][y_kmeans == 2], s = 20, c = 'green', label = 'Cluster 3')
+ax[0].scatter(X["Area"][y_kmeans == 3], X["White Percent Area"][y_kmeans == 3], s = 20, c = 'cyan', label = 'Cluster 4')
 
-plt.title('Clusters of cells')
-plt.xlabel('Area (sq.pixel)')
-plt.ylabel('White Percent Area (1-100)')
-plt.legend()
-plt.show()
+ax[0].scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 80, c = 'black', label = 'Centroid', alpha = 0.2)
 
-plt.savefig('figs/Cell_Cluster_Kmeans.png')
+ax[0].set_title('2D Plot of Clusters on Area by Percentage White')
+ax[0].set_xlabel('Area')
+ax[0].set_ylabel('White Percentage of Area')
 
-# Try this
-'''
-# Plot the data with K Means Labels
-from sklearn.cluster import KMeans
-kmeans = KMeans(4, random_state=0)
-labels = kmeans.fit(X).predict(X)
-plt.scatter(X[:, 0], X[:, 1], c=labels, s=40, cmap='viridis')
-'''
 
-# Optional as to whether we want to try to visualize the clusters with hyper-spheres
-# May not work well if our clusters are elliptical, rather than circular
-# GMM may be better: https://github.com/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/05.12-Gaussian-Mixtures.ipynb
-'''
-from scipy.spatial.distance import cdist
+ax[1].scatter(X["Circle Area"][y_kmeans == 0], X["Black Percent Circle"][y_kmeans == 0], s = 20, c = 'red', label = 'Cluster 1')
+ax[1].scatter(X["Circle Area"][y_kmeans == 1], X["Black Percent Circle"][y_kmeans == 1], s = 20, c = 'blue', label = 'Cluster 2')
+ax[1].scatter(X["Circle Area"][y_kmeans == 2], X["Black Percent Circle"][y_kmeans == 2], s = 20, c = 'green', label = 'Cluster 3')
+ax[1].scatter(X["Circle Area"][y_kmeans == 3], X["Black Percent Circle"][y_kmeans == 3], s = 20, c = 'cyan', label = 'Cluster 4')
 
-def plot_kmeans(kmeans, X, n_clusters=4, rseed=0, ax=None):
-    labels = kmeans.fit_predict(X)
+ax[1].scatter(kmeans.cluster_centers_[:, 6], kmeans.cluster_centers_[:, 7], s = 80, c = 'black', label = 'Centroid', alpha = 0.2)
 
-    # plot the input data
-    ax = ax or plt.gca()
-    ax.axis('equal')
-    ax.scatter(X[:, 0], X[:, 1], c=labels, s=40, cmap='viridis', zorder=2)
+ax[1].set_title('2D Plot of Clusters on Circle Area by Percentage Black')
+ax[1].set_xlabel('Circle Area')
+ax[1].set_ylabel('Black Percentage of Circle')
+plt.legend(bbox_to_anchor=(1.18, 1))
 
-    # plot the representation of the KMeans model
-    centers = kmeans.cluster_centers_
-    radii = [cdist(X[labels == i], [center]).max()
-             for i, center in enumerate(centers)]
-    for c, r in zip(centers, radii):
-        ax.add_patch(plt.Circle(c, r, fc='#CCCCCC', lw=3, alpha=0.5, zorder=1))
-    
-kmeans = KMeans(n_clusters=4, random_state=0)
-plot_kmeans(kmeans, X)
-'''
+plt.savefig('figs/Cell_Cluster_Kmeans(Circle Area vs Black Percent).png')
