@@ -41,11 +41,11 @@ Note: there is a bug that affects MacOS, which will throw an unecessary warning 
 
 <img src="data/image_green.png" width="500">
 This is a sample image of hepatocytes that have absorbed acridine orange, glowing green in flourescent light.
-<br />
+<br /><br /><br />
 
 <img src="data/image_grey.png" width="500">
 Here we have our greyscale reduction of the image, which we produce for easier analysis.
-<br />
+<br /><br />
 
 ## Part 4: Analysis of Flourescence
 
