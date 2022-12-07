@@ -144,7 +144,7 @@ for i in range(r):
                             if M[cx + px, cy + py, 0] == 0:
                                 black += 1
             t += 1
-            cells.append([k, white, height, width, cx, cy, circle_area, black])
+            cells.append([k, round((white/k)*100, 2), height, width, cx, cy, circle_area, round((black/circle_area)*100, 2)])
             M[cx, cy, 0] = 0
             M[cx, cy, 1] = 0
             M[cx, cy, 2] = 255

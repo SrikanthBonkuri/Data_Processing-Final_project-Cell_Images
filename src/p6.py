@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-df = pd.read_csv('../data/example.csv')
+df = pd.read_csv('data/example.csv')
 
 
 
@@ -41,20 +41,20 @@ print(y_kmeans)
 
 # Visualising the clusters
 
-plt.scatter(X["Area"][y_kmeans == 0], X["White Pixel Count"][y_kmeans == 0], s = 20, c = 'red', label = 'Cluster 1')
-plt.scatter(X["Area"][y_kmeans == 1], X["White Pixel Count"][y_kmeans == 1], s = 20, c = 'blue', label = 'Cluster 2')
-plt.scatter(X["Area"][y_kmeans == 2], X["White Pixel Count"][y_kmeans == 2], s = 20, c = 'green', label = 'Cluster 3')
-plt.scatter(X["Area"][y_kmeans == 3], X["White Pixel Count"][y_kmeans == 3], s = 20, c = 'cyan', label = 'Cluster 4')
+plt.scatter(X["Area"][y_kmeans == 0], X["White Percent Area"][y_kmeans == 0], s = 20, c = 'red', label = 'Cluster 1')
+plt.scatter(X["Area"][y_kmeans == 1], X["White Percent Area"][y_kmeans == 1], s = 20, c = 'blue', label = 'Cluster 2')
+plt.scatter(X["Area"][y_kmeans == 2], X["White Percent Area"][y_kmeans == 2], s = 20, c = 'green', label = 'Cluster 3')
+plt.scatter(X["Area"][y_kmeans == 3], X["White Percent Area"][y_kmeans == 3], s = 20, c = 'cyan', label = 'Cluster 4')
 
 plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 50, c = 'black', label = 'Centroids')
 
 plt.title('Clusters of cells')
 plt.xlabel('Area (sq.pixel)')
-plt.ylabel('White Pixel Count (1-100)')
+plt.ylabel('White Percent Area (1-100)')
 plt.legend()
 plt.show()
 
-plt.savefig('../figs/Cell_Cluster_Kmeans.png')
+plt.savefig('figs/Cell_Cluster_Kmeans.png')
 
 # Try this
 '''
