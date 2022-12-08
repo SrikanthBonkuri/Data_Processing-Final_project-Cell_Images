@@ -8,13 +8,10 @@ around challenges counting non spherical objects. By first engaging in explorata
 
 
 #### Green flourosence image of Hepatocytes:
-<img src="figs/BioIVT Hepatocytes 7-24-19_result_20190620204125.png" width="500">
-![BioIVT Hepatocytes 7-24-19_result_20190620204125](https://user-images.githubusercontent.com/45035308/206374474-2ea30faa-49a2-4481-a2e7-1bf44a772ed0.png)
+<img src="../data/BioIVT Hepatocytes 7-24-19_result_20190620204125.png" width="500">
 
 #### Brightfield image of blood sample:
-<img src="figs/BioIVT Hepatocytes 7-24-19_green_20190620213016.png" width="500">
-![BioIVT Hepatocytes 7-24-19_green_20190620213016](https://user-images.githubusercontent.com/45035308/206374869-ba599eed-cb94-46c7-b1df-60c0e980e019.png)
-
+<img src="../data/BioIVT Hepatocytes 7-24-19_green_20190620213016.png" width="500">
 
 
 
@@ -27,7 +24,7 @@ Here we've proven we can read PNG files and show the count of pixels. All the PN
 
 ## Part 2: Pixel Intensity Analysis
 
-<img src="figs/pixel_intensity_hist_by_imaging_method.png" width="500">
+<img src="../figs/pixel_intensity_hist_by_imaging_method.png" width="500">
 
 There are three types of images that are captured by DeNovix's CellDrop automated cell counters, prior to their algorithm producing a 'result' image. These images are brightfield, which involves passing light through the sample, and two kinds of fluorescent imaging, red and green. In the flourescent images, only the cells which have absorbed dyes will light up and appear bright in the image. In the green images, live and intact cells that (i.e. those that have absorbed acridine orange) light up. And, in the red images, dead cells (i.e. those that have absorbed propidium iodide) light up.
 
@@ -35,39 +32,39 @@ In this histogram of 256 bins - because there are 2^6 options for level of inten
 
 ## Part 3: Image Gradient Reduction
 
-<img src="data/image_green.png" width="500">
+<img src="../data/image_green.png" width="500">
 This is a sample image of tumorspheres that have absorbed acridine orange captured in green flourescent light.
 <br /><br /><br />
 
-<img src="data/image_grey.png" width="500">
+<img src="../data/image_grey.png" width="500">
 Here we have our gradient reduction of the image pixel intensities into buckets of white, black, and grey. This allows for easier analysis of cells bodies (and organelles), membranes (and plasma), and background, which enables easier analysis.
 <br /><br />
 
 ## Part 4: Cell Size by Fluorescence Analysis
 
-<img src="figs/Cell_Area_by_Percentage_White.png" width="900">
+<img src="../figs/Cell_Area_by_Percentage_White.png" width="900">
 
 White pixels count is a measure of how much of a cell absorbed acridine orange dye. It is easy to see that there is a logarithmic relationship between the area of a cell and the percentage of it that is white. Notably, it's also easy to see that as a cell takes up more pixels, it is also more likely to have a larger proportion of white pixels. This is not surprising, nor is the bundle of scattered dots with 0% white and small total size, because the larger a cell, the more flourescent dye it will hold onto.
 
 ## Part 5: K-Means Clustering
 
-<img src="figs/Elbow_Plot_Kmeans.png" width="500">
+<img src="../figs/Elbow_Plot_Kmeans.png" width="500">
 
 Calculating within cluster sum of squares (WCSS), one can figure out the most informative number of clusters. We have plotted the WCSS for 1 through 8 clusters in the elbow plot above and observed that WCSS is reducing substantially and increasingly until k=4 and not very significantly thereafter.
 
 Therefore, we used k-means to identify 4 clusters on two of our most interesting engineered features: White Percent Area and Black Percent Circle. The former is a measure of object fluorescence and the latter is a measure of object sphericity. We have plotted these against Area and Circle Area respectively. The Area is the area of the entire object (i.e. count of contiguous grey and white pixels that make up a cell or a clumped and touching neighborhood of cells). The Circle Area is the area of a circle produced on the center of the object with a diameter that is the average of the object’s width and height.
 
-<img src="figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png" width="900">
+<img src="../figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png" width="900">
 
 In both charts, it’s easy to see the relationship between clusters and the size of the object. Object size may be single most predictive feature for the variance across the population. It’s also interesting to note that cluster 3 (in moss green) holds only a single anomalous object, with a far larger pixel count than the rest. Perhaps this object is a clump of multiple overlapping cells. And, it’s curious to see that there is a small cell with a very large percentage of black within its circle area. Likely, this is a slender oval, and perhaps it represents cellular material from a no longer intact cell. Prior to our final submission, we may seek to recreate images with the clusters identified visually for more intutive analyses and review with a cell biologist.
 
 ## Part 6: Principal Components Analysis
 
-<img src="figs/Explained_Variance_Ratio_by_Factor.png" width="500">
+<img src="../figs/Explained_Variance_Ratio_by_Factor.png" width="500">
 
 We can see here that among the principal components we have computed 3 of them will explain 95.7% of the variance among the cells and 4 components can cumulatively explain 98.3%. Once we consider 5 components or more, we can explain more than 99% of the variance.
 
-<img src="figs/Covariance_Matrix.png" width="500">
+<img src="../figs/Covariance_Matrix.png" width="500">
 
 For additional information on the relationsips between features we tracked and engineered in our dataframe and the principal components, here is the covariance matrix.
 
@@ -81,6 +78,3 @@ We'd also like to thank Professor Phil Bogden for teaching us the methods applie
 
 Lastly, we are grateful to the creators and contributors of Python, Pandas, Scikit-Learn, Matplotlib, Numpy, and OpenCV. To paraphrase Isaac Newton: if we have seen cells with greater insight, it is only by leveraging the work of giants.
 
-## Note on deprecation warning
-
-Note: there is a bug that affects MacOS, which will throw an unecessary warning and is supposed to be corrected in the next major version. Until then, please do not mark off points if you experience this error as we have. Source for details of the error: https://github.com/matplotlib/matplotlib/issues/23921
