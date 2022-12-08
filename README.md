@@ -19,6 +19,10 @@ Then in the directory where you cloned this repo, run the files in <strong><code
 #### Part 4
 ```python3 src/p4.py```
 Review <strong><code>figs</code></strong> and the file will have been overwritten by your runs. Feel free to delete the pre-existing figures in advance to truly validate.
+#### Part 5
+```python3 src/p5.py```
+#### Part 6
+```python3 src/p6.py```
 
 ## Part 1: Elementary Image File Analysis
 
