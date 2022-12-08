@@ -1,28 +1,22 @@
 # Cell Images
 Greg Howard & Srikanth Bonkuri
 
-#### Note: you will need to download OpenCV for Python to complete Part2
-```pip install opencv```
+## Background:
+We worked for our class project with a biomedical research company named Denovix, who manfactures and sells automated cell counters.
+Our project has been to create a cell numeration algorithm similar to theirs based on the first principle approches and then to tackle a problem that they've described
+around challenges counting non spherical objects. By first engaging in exploratary data analysis, and making unsupervised learning approaches that includes K-means clustering and Principal Component Analysis(PCA).
 
-### Reproducing the figures based on the dataset
-First clone this repo.
-```git clone https://github.com/ds5110/cell-images.git```
-Then in the directory where you cloned this repo, run the files in <strong><code>src</code></strong>.
-#### Part 1
-```python3 src/p1.py```
-#### Part 2
-```python3 src/p2.py```
-#### Part 3
-```python3 src/p3.py```
-#### Part 3.5 (optional: used to produce the data that is already as a csv in /data/example.csv)
-```python3 src/p3_5.py```
-#### Part 4
-```python3 src/p4.py```
-Review <strong><code>figs</code></strong> and the file will have been overwritten by your runs. Feel free to delete the pre-existing figures in advance to truly validate.
-#### Part 5
-```python3 src/p5.py```
-#### Part 6
-```python3 src/p6.py```
+
+#### Green flourosence image of Hepatocytes:
+<img src="figs/BioIVT Hepatocytes 7-24-19_result_20190620204125.png" width="500">
+![BioIVT Hepatocytes 7-24-19_result_20190620204125](https://user-images.githubusercontent.com/45035308/206374474-2ea30faa-49a2-4481-a2e7-1bf44a772ed0.png)
+
+#### Brightfield image of blood sample:
+<img src="figs/BioIVT Hepatocytes 7-24-19_green_20190620213016.png" width="500">
+![BioIVT Hepatocytes 7-24-19_green_20190620213016](https://user-images.githubusercontent.com/45035308/206374869-ba599eed-cb94-46c7-b1df-60c0e980e019.png)
+
+
+
 
 ## Part 1: Elementary Image File Analysis
 
