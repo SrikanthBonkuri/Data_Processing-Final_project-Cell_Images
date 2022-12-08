@@ -5,7 +5,7 @@
 import cv2 as cv # Import the OpenCV library
 import math
 
-# For now we are handling a hard coded local images.
+# For now we are handling hard coded local images.
 # We may consider improving to have this deal with a series of images.
 image = cv.imread("data/image_green.png")
 
@@ -50,8 +50,6 @@ print("Gray Pixels:", g)
 
 # Produce a greyscale reduction image
 # We may consider improving this to allow for naming multiple images differently
-'''cv.imshow("image_grey", M)
-cv.waitKey(0)'''
 cv.imwrite("data/image_grey.png", M)
 
 
@@ -161,10 +159,7 @@ for i in range(r):
         white = 0
         black = 0
 
-    
-'''cv.imshow("image_center", M)
-cv.waitKey(0)
-cv.imwrite("data/image_center.png", M)'''
+cv.imwrite("data/image_center.png", M)
 print("Total objects:", t)
 print("Largest object:", m)
 print(cells)

@@ -1,50 +1,61 @@
 # Greg Howard & Srikanth Bonkuri
 
 import pandas as pd
-from sklearn.decomposition import PCA
-import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.preprocessing import StandardScaler
 
 df = pd.read_csv('data/example.csv')
+
 df.drop(df.columns[[0]], axis=1, inplace=True)
 
-# Conduct principal components analysis
-X = df 
-standardized_X = StandardScaler().fit_transform(X)
-pca = PCA(n_components=8)
-pca.fit(standardized_X)
+X = df
+print(X)
 
-print('PCA Mean: ' + str(pca.mean_[1:9]) + '\n')
-print('PCA Explained Variance Ratio: ' + str(pca.explained_variance_ratio_)  + '\n')
-print('Cumulative Proportion of Variance: ' + str(np.cumsum(pca.explained_variance_ratio_))  + '\n')
+# Using the elbow method to find the optimal number of clusters
+from sklearn.cluster import KMeans
+wcss = []   # 
+for i in range(1, 9):
+    kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
+    kmeans.fit(X)
+    wcss.append(kmeans.inertia_)
+plt.plot(range(1, 9), wcss)
+plt.title('Elbow Plot on number of clusters')
+plt.xlabel('Number of clusters')
+plt.ylabel('WCSS')
+plt.savefig('figs/Elbow_Plot_Kmeans.png')
 
-# Make a scree plot to visualize the number of factors to retain
-x_array=[1, 2, 3, 4, 5, 6, 7, 8]
-var_explained = pd.DataFrame(pca.explained_variance_ratio_)
-sns.barplot(data=var_explained, x=x_array, y=pca.explained_variance_ratio_)
-plt.xlabel('Factor')
-plt.ylabel('Explained Variance Ratio')
-plt.title('Explained Variance Ratio of Each Factor')
-plt.savefig('figs/Explained_Variance_Ratio_by_Factor.png')
-plt.cla()
-plt.clf()
+plt.cla()   # Clear axis
+plt.clf() 
 
-# Credit to Renesh Bedre for the fantastic guide linked below that provided a map for this section
-# https://www.reneshbedre.com/blog/principal-component-analysis.html
-loadings = pca.components_
-for loading in loadings:
-    for load in loading:
-        load = round(load, 2)
-count_pc = pca.n_features_
-pc_list = ['PC' + str(i) for i in x_array]
-loadings_df = pd.DataFrame.from_dict(dict(zip(pc_list, loadings)))
-loadings_df['variable'] = df.columns.values
-loadings_df = loadings_df.set_index('variable')
-ax = sns.heatmap(loadings_df, annot=True, cmap='Spectral')
-fig = ax.get_figure()
-fig.subplots_adjust(left=0.24)
-fig.subplots_adjust(right=1)
-plt.title('Covariance matrix plot for loadings')
-plt.savefig('figs/Covariance_Matrix.png')
+kmeans = KMeans(n_clusters = 4, init = 'k-means++', random_state = 42)
+y_kmeans = kmeans.fit_predict(X)
+
+# Visualising the clusters
+
+# Plot Data
+fig, ax = plt.subplots(1, 2, figsize=(20, 9)) # Change code for figsize due to deprecation warning
+fig.subplots_adjust(left=0.0625, right=0.9, wspace=0.1)
+
+ax[0].scatter(X["Area"][y_kmeans == 0], X["White Percent Area"][y_kmeans == 0], s = 20, c = 'red', label = 'Cluster 1')
+ax[0].scatter(X["Area"][y_kmeans == 1], X["White Percent Area"][y_kmeans == 1], s = 20, c = 'blue', label = 'Cluster 2')
+ax[0].scatter(X["Area"][y_kmeans == 2], X["White Percent Area"][y_kmeans == 2], s = 20, c = 'green', label = 'Cluster 3')
+ax[0].scatter(X["Area"][y_kmeans == 3], X["White Percent Area"][y_kmeans == 3], s = 20, c = 'cyan', label = 'Cluster 4')
+
+ax[0].scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 80, c = 'green', label = 'Centroid', alpha = 0.5)
+
+ax[0].set_title('2D Plot of Clusters on Area by Percentage White')
+ax[0].set_xlabel('Area')
+ax[0].set_ylabel('White Percentage of Area')
+
+ax[1].scatter(X["Circle Area"][y_kmeans == 0], X["Black Percent Circle"][y_kmeans == 0], s = 20, c = 'red', label = 'Cluster 1')
+ax[1].scatter(X["Circle Area"][y_kmeans == 1], X["Black Percent Circle"][y_kmeans == 1], s = 20, c = 'blue', label = 'Cluster 2')
+ax[1].scatter(X["Circle Area"][y_kmeans == 2], X["Black Percent Circle"][y_kmeans == 2], s = 20, c = 'green', label = 'Cluster 3')
+ax[1].scatter(X["Circle Area"][y_kmeans == 3], X["Black Percent Circle"][y_kmeans == 3], s = 20, c = 'cyan', label = 'Cluster 4')
+
+ax[1].scatter(kmeans.cluster_centers_[:, 6], kmeans.cluster_centers_[:, 7], s = 80, c = 'green', label = 'Centroid', alpha = 0.5)
+
+ax[1].set_title('2D Plot of Clusters on Circle Area by Percentage Black')
+ax[1].set_xlabel('Circle Area')
+ax[1].set_ylabel('Black Percentage of Circle')
+plt.legend(bbox_to_anchor=(1.18, 1))
+
+plt.savefig('figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png')
