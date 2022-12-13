@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
+from bioinfokit.visuz import cluster
 
 df = pd.read_csv('data/example.csv')
 df.drop(df.columns[[0]], axis=1, inplace=True)
@@ -31,8 +32,7 @@ plt.savefig('figs/Explained_Variance_Ratio_by_Factor.png')
 plt.cla()
 plt.clf()
 
-# Credit to Renesh Bedre for the fantastic guide linked below that provided a map for this section
-# https://www.reneshbedre.com/blog/principal-component-analysis.html
+# Capture the loadings and plot the correlation matrix for these
 loadings = pca.components_
 for loading in loadings:
     for load in loading:
@@ -42,9 +42,21 @@ pc_list = ['PC' + str(i) for i in x_array]
 loadings_df = pd.DataFrame.from_dict(dict(zip(pc_list, loadings)))
 loadings_df['variable'] = df.columns.values
 loadings_df = loadings_df.set_index('variable')
-ax = sns.heatmap(loadings_df, annot=True, cmap='Spectral')
+ax = sns.heatmap(loadings_df, annot=True, cmap=sns.diverging_palette(5, 250, n=200))
 fig = ax.get_figure()
 fig.subplots_adjust(left=0.24)
 fig.subplots_adjust(right=1)
-plt.title('Covariance matrix plot for loadings')
-plt.savefig('figs/Covariance_Matrix.png')
+plt.title('Correlation matrix plot for loadings')
+plt.savefig('figs/Correlation_Matrix.png')
+'''
+Possible add on if time allows for troubleshooting:
+plt.cla()
+plt.clf()
+
+# Get the pc scores for 4 components and plot these in a 2D biplot
+pca4 = PCA(4).fit(standardized_X)
+print(type(pca4))
+cluster.biplot(cscore=pca4, loadings=loadings, labels=df.columns.values, var1=round(var_explained[0][0]*100, 2), var2=round(var_explained[0][1]*100, 2))
+plt.title('2D PCA Biplot')
+plt.savefig('figs/2D_PCA_Biplot.png')
+'''
