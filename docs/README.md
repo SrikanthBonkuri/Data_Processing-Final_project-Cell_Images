@@ -75,7 +75,9 @@ White pixel count for this tumorsphere image is a measure of how much of a cell 
 <img src="../figs/Elbow_Plot_Kmeans.png" width="500">
 
 Calculating within cluster sum of squares (WCSS), one can figure out the most informative number of clusters.
+
   'Within cluster sum of squares(WCSS) mean the sum of squared distance between each point and it's centroid in a cluster.'
+
 In the Elbow method, we are actually varying the number of clusters (K) from 1 – 8, and for each value of K, we are calculating WCSS. When we plotted the WCSS with the K values, the plot looks like an Elbow. As the number of clusters increases, the WCSS value starts to decrease. WCSS value is largest when K = 1.
 And here we observed that WCSS is reducing substantially until k=4 and not very significantly thereafter.
 
