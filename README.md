@@ -80,13 +80,25 @@ White pixel count for this tumorsphere image is a measure of how much of a cell 
 
 <img src="figs/Elbow_Plot_Kmeans.png" width="500">
 
-Calculating within cluster sum of squares (WCSS), one can figure out the most informative number of clusters. We have plotted the WCSS for 1 through 8 clusters in the elbow plot above and observed that WCSS is reducing substantially and increasingly until k=4 and not very significantly thereafter.
+Calculating within cluster sum of squares (WCSS), one can figure out the most informative number of clusters.
+
+  'Within cluster sum of squares(WCSS) mean the sum of squared distance between each point and it's centroid in a cluster.'
+
+In the Elbow method, we are actually varying the number of clusters (K) from 1 – 8, and for each value of K, we are calculating WCSS. When we plotted the WCSS with the K values, the plot looks like an Elbow. As the number of clusters increases, the WCSS value starts to decrease. WCSS value is largest when K = 1.
+And here we observed that WCSS is reducing substantially until k=4 and not very significantly thereafter.
 
 Therefore, we used k-means to identify 4 clusters on two of our most interesting engineered features: White Percent Area and Black Percent Circle. The former is a measure of object fluorescence and the latter is a measure of object sphericity. We have plotted these against Area and Circle Area respectively. The Area is the area of the entire object (i.e. count of contiguous grey and white pixels that make up a cell or a clumped and touching neighborhood of cells). The Circle Area is the area of a circle produced on the center of the object with a diameter that is the average of the object’s width and height.
 
 <img src="figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png" width="900">
 
 In both charts, it’s easy to see the relationship between clusters and the size of the object. Object size may be single most predictive feature for the variance across the population. It’s also interesting to note that cluster 3 (in moss green) holds only a single anomalous object, with a far larger pixel count than the rest. Perhaps this object is a clump of multiple overlapping cells. And, it’s curious to see that there is a small cell with a very large percentage of black within its circle area. Likely, this is a slender oval, and perhaps it represents cellular material from a no longer intact cell. Prior to our final submission, we may seek to recreate images with the clusters identified visually for more intutive analyses and review with a cell biologist.
+
+And here it is, we recreated the image with colored marks that represents the cluster in which each cell has been grouped to.
+
+<img src="data/image_cluster.png" width="900">
+
+Interesting findings out there, the tiny cells been a cluster and each of them marked with Red. Next medium sized cells are marked with Yellow.
+Similarly, the larger category cells marked with Blue. And finally the anomalous object that we're interpreting to finds it's cluster, has been the only single cell which made a cluster by its own. And it is the cell with largest size in the image and with high distortedness value in shape.
 
 ## Part 7: Principal Components Analysis
 
