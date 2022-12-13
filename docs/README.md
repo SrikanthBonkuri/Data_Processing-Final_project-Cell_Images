@@ -64,9 +64,9 @@ In both charts, it’s easy to see the relationship between clusters and the siz
 
 We can see here that among the principal components we have computed 3 of them will explain 95.7% of the variance among the cells and 4 components can cumulatively explain 98.3%. Once we consider 5 components or more, we can explain more than 99% of the variance.
 
-<img src="../figs/Covariance_Matrix.png" width="500">
+<img src="../figs/Correlation_Matrix.png" width="500">
 
-For additional information on the relationsips between features we tracked and engineered in our dataframe and the principal components, here is the covariance matrix.
+For additional information on the relationsips between features we tracked and engineered in our dataframe and the principal components, here is the correlation matrix.
 
 Dimensionality reduction is pretty meaningful in the context of our project, considering we may one day want our code to run rapidly on cell counter devices. In the more immediate future, we may also want have subject matter experts tag cells for us in a way that we can use to train a deep learning model to count even non-spherical cells correctly. While this original test and train data may not be too large, future data sets from scientists we share this application with may be much larger. Therefore, we will continue to simultaneously engineer the most meaningful features we can and reduce the data frame size as much as possible.
 
