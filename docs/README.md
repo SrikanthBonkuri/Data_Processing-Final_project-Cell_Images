@@ -74,7 +74,10 @@ White pixel count for this tumorsphere image is a measure of how much of a cell 
 
 <img src="../figs/Elbow_Plot_Kmeans.png" width="500">
 
-Calculating within cluster sum of squares (WCSS), one can figure out the most informative number of clusters. We have plotted the WCSS for 1 through 8 clusters in the elbow plot above and observed that WCSS is reducing substantially and increasingly until k=4 and not very significantly thereafter.
+Calculating within cluster sum of squares (WCSS), one can figure out the most informative number of clusters.
+  'Within cluster sum of squares(WCSS) mean the sum of squared distance between each point and it's centroid in a cluster.'
+In the Elbow method, we are actually varying the number of clusters (K) from 1 – 8, and for each value of K, we are calculating WCSS. When we plotted the WCSS with the K values, the plot looks like an Elbow. As the number of clusters increases, the WCSS value starts to decrease. WCSS value is largest when K = 1.
+And here we observed that WCSS is reducing substantially until k=4 and not very significantly thereafter.
 
 Therefore, we used k-means to identify 4 clusters on two of our most interesting engineered features: White Percent Area and Black Percent Circle. The former is a measure of object fluorescence and the latter is a measure of object sphericity. We have plotted these against Area and Circle Area respectively. The Area is the area of the entire object (i.e. count of contiguous grey and white pixels that make up a cell or a clumped and touching neighborhood of cells). The Circle Area is the area of a circle produced on the center of the object with a diameter that is the average of the object’s width and height.
 
