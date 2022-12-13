@@ -1,13 +1,25 @@
 # Cell Images
 Greg Howard & Srikanth Bonkuri
 
-#### Note: you will need to download OpenCV for Python to complete Part2
+## Instructions
+
+This project analyses cell images captured by DeNovix CellDrop cell counters. Once you have the relevant libraries and have cloned the repo, you can reproduce the results of the project with the Makefile.
+
+#### Note: you will need several libraries, which you can install with pip 
 ```pip install opencv```
+```pip install seaborn```
+```pip install matplotlib```
+```pip install numpy```
+```pip install pandas```
+```pip install sklearn```
 
 ### Reproducing the figures based on the dataset
 First clone this repo.
 ```git clone https://github.com/ds5110/cell-images.git```
-Then in the directory where you cloned this repo, run the files in <strong><code>src</code></strong>.
+Then in the directory where you cloned this repo, call
+```make```
+
+You can also run the files in <strong><code>src</code></strong> individually:
 #### Part 1
 ```python3 src/p1.py```
 #### Part 2
@@ -18,11 +30,12 @@ Then in the directory where you cloned this repo, run the files in <strong><code
 ```python3 src/p3_5.py```
 #### Part 4
 ```python3 src/p4.py```
-Review <strong><code>figs</code></strong> and the file will have been overwritten by your runs. Feel free to delete the pre-existing figures in advance to truly validate.
 #### Part 5
 ```python3 src/p5.py```
 #### Part 6
 ```python3 src/p6.py```
+Review <strong><code>figs</code></strong> and the file will have been overwritten by your runs. Feel free to delete the pre-existing figures in advance to truly validate. A simple way to do this is
+```make clean```
 
 ## Part 1: Elementary Image File Analysis
 

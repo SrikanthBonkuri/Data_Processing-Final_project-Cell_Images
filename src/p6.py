@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
-from bioinfokit.visuz import cluster
+#from bioinfokit.visuz import cluster
 
 df = pd.read_csv('data/example.csv')
 df.drop(df.columns[[0]], axis=1, inplace=True)
