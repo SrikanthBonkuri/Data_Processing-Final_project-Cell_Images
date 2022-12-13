@@ -1,25 +1,25 @@
 
-all: q4 q5 q6
+all: p2 p4 p5 p6
 
-q1:
-	python3 src/p11.py
+p1:
+	python3 src/p1.py
 
-q2:
+p2:
 	python3 src/p2.py
 
-q3:
+p3:
 	python3 src/p3.py
 
 data:
 	python3 src/p3_5.py
 
-q4:
+p4:
 	python3 src/p4.py
 
-q5:
+p5:
 	python3 src/p5.py
 
-q6:
+p6:
 	python3 src/p6.py
 
 clean:
