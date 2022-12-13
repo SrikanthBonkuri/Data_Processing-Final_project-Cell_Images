@@ -48,19 +48,21 @@ We could have repurposed someone else's BFS code, but for reason (2) above we di
 
 The features we've engineered for each cell are:
 * Area (pixel count)
-* Percent Area White (white pixels as a percent of total pixels)
+* White Percent Area (white pixels as a percentage of total pixels)
 * Height
 * Width
 * Center x Coordinate
 * Center y Coordinate
 * Circle Area (math.pi * radius^2, where radius is (Height + Width)/4)
-* Percent Black Circle (black pixels within circle radius as a percent of the circle area)
+* Black Percent Circle (black pixels within circle radius as a percentage of the circle area)
 
 ## Part 4: Visualizing Feature Relationships
 
-<img src="figs/Cell_Area_by_Percentage_White.png" width="900">
+<img src="figs/Feature_Scatterplot_Matrix.png" width="900">
 
-[To be replaced with scatterplot of the features.]
+Here we've plotted all the features against one another on scatterplots, with the hue being set for each specific cell. While we have 64 cells, we only have 10 colors in our palette, so you may need some intuition to identify which cell you're looking at if you mean to track a single cell across the matrix of scatterplots. Even if you don't find the color useful, at least it's aesthetically pleasing.
+
+There are a series of feature relationships that can be visualized across these plots. In the next part we explore one of these relationships in greater detail.
 
 ## Part 5: Cell Size by Fluorescence Analysis
 
