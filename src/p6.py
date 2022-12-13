@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import cv2 as cv # Import the OpenCV library
 import math
 
-df = pd.read_csv('../data/example.csv')
+df = pd.read_csv('data/example.csv')
 
 df.drop(df.columns[[0]], axis=1, inplace=True)
 
@@ -23,7 +23,7 @@ plt.plot(range(1, 9), wcss)
 plt.title('Elbow Plot on number of clusters')
 plt.xlabel('Number of clusters')
 plt.ylabel('WCSS')
-plt.savefig('../figs/Elbow_Plot_Kmeans.png')
+plt.savefig('figs/Elbow_Plot_Kmeans.png')
 
 #plt.cla()   # Clear axis
 #plt.clf() 
@@ -61,10 +61,10 @@ ax[1].set_xlabel('Circle Area')
 ax[1].set_ylabel('Black Percentage of Circle')
 plt.legend(bbox_to_anchor=(1.18, 1))
 
-plt.savefig('../figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png')
+plt.savefig('figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png')
 
 
-image = cv.imread("../data/image_green.png")
+image = cv.imread("data/image_green.png")
 ro = len(image)
 cl = len(image[0])
 cx, cy = df['Center_x'], df['Center_y']
@@ -89,7 +89,7 @@ for i in range(l):
             image[p, q, 1] = g
             image[p, q, 2] = r
 
-cv.imwrite("../data/image_cluster.png", image)
+cv.imwrite("data/image_cluster.png", image)
 cv.imshow("Clusters", image)
 cv.waitKey(0)
 
