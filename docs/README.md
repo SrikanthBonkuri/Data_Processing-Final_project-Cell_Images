@@ -87,6 +87,9 @@ Therefore, we used k-means to identify 4 clusters on two of our most interesting
 
 In both charts, it’s easy to see the relationship between clusters and the size of the object. Object size may be single most predictive feature for the variance across the population. It’s also interesting to note that cluster 3 (in moss green) holds only a single anomalous object, with a far larger pixel count than the rest. Perhaps this object is a clump of multiple overlapping cells. And, it’s curious to see that there is a small cell with a very large percentage of black within its circle area. Likely, this is a slender oval, and perhaps it represents cellular material from a no longer intact cell. Prior to our final submission, we may seek to recreate images with the clusters identified visually for more intutive analyses and review with a cell biologist.
 
+<img src="../data/image_cluster.png" width="900">
+
+
 ## Part 7: Principal Components Analysis
 
 <img src="../figs/Explained_Variance_Ratio_by_Factor.png" width="500">
