@@ -1,5 +1,5 @@
 
-all: p2 p4 p5 p6
+all: p2 p4 p5 p6 p7
 
 p1:
 	python3 src/p1.py
@@ -21,6 +21,9 @@ p5:
 
 p6:
 	python3 src/p6.py
+
+p7:
+	python3 src/p7.py
 
 clean:
 	rm figs/*

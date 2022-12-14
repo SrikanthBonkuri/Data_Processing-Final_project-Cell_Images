@@ -63,7 +63,6 @@ plt.legend(bbox_to_anchor=(1.18, 1))
 
 plt.savefig('figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png')
 
-
 image = cv.imread("data/image_green.png")
 ro = len(image)
 cl = len(image[0])
@@ -89,7 +88,4 @@ for i in range(l):
             image[p, q, 1] = g
             image[p, q, 2] = r
 
-cv.imwrite("data/image_cluster.png", image)
-cv.imshow("Clusters", image)
-cv.waitKey(0)
-
+cv.imwrite("data/Image_Cluster.png", image)

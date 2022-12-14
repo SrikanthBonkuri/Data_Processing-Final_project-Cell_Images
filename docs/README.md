@@ -72,22 +72,25 @@ White pixel count for this tumorsphere image is a measure of how much of a cell 
 
 ## Part 6: K-Means Clustering
 
-<img src="../figs/Elbow_Plot_Kmeans.png" width="500">
-
 Calculating within cluster sum of squares (WCSS), one can figure out the most informative number of clusters.
 
-  'Within cluster sum of squares(WCSS) mean the sum of squared distance between each point and it's centroid in a cluster.'
+  'Within cluster sum of squares (WCSS) is the sum of squared distance between each point and its centroid in a cluster.'
 
-In the Elbow method, we are actually varying the number of clusters (K) from 1 – 8, and for each value of K, we are calculating WCSS. When we plotted the WCSS with the K values, the plot looks like an Elbow. As the number of clusters increases, the WCSS value starts to decrease. WCSS value is largest when K = 1.
-And here we observed that WCSS is reducing substantially until k=4 and not very significantly thereafter.
+  <img src="WCSS_equation.png" width="300">
+
+In the Elbow method, we are actually varying the number of clusters (K) from 1 – 8, and for each value of K, we are calculating WCSS.
+
+<img src="WCSS_over_clusters.png" width="300">
+
+When we plotted the WCSS with the K values (see below), the plot looks like an Elbow. As the number of clusters increases, the WCSS value starts to decrease. WCSS value is largest when K = 1. And here we observed that WCSS is reducing substantially until k=4 and not very significantly thereafter.
+
+<img src="../figs/Elbow_Plot_Kmeans.png" width="500">
 
 Therefore, we used k-means to identify 4 clusters on two of our most interesting engineered features: White Percent Area and Black Percent Circle. The former is a measure of object fluorescence and the latter is a measure of object sphericity. We have plotted these against Area and Circle Area respectively. The Area is the area of the entire object (i.e. count of contiguous grey and white pixels that make up a cell or a clumped and touching neighborhood of cells). The Circle Area is the area of a circle produced on the center of the object with a diameter that is the average of the object’s width and height.
 
 <img src="../figs/Cell_Cluster_Kmeans(White Percent x Area and Black Percent x Circle Area).png" width="900">
 
-In both charts, it’s easy to see the relationship between clusters and the size of the object. Object size may be single most predictive feature for the variance across the population. It’s also interesting to note that cluster 3 (in moss green) holds only a single anomalous object, with a far larger pixel count than the rest. Perhaps this object is a clump of multiple overlapping cells. And, it’s curious to see that there is a small cell with a very large percentage of black within its circle area. Likely, this is a slender oval, and perhaps it represents cellular material from a no longer intact cell. Prior to our final submission, we may seek to recreate images with the clusters identified visually for more intutive analyses and review with a cell biologist.
-
-And here it is, we recreated the image with colored marks that represents the cluster in which each cell has been grouped to.
+In both charts, it’s easy to see the relationship between clusters and the size of the object. Object size may be single most predictive feature for the variance across the population. It’s also interesting to note that cluster 3 (in moss green) holds only a single anomalous object, with a far larger pixel count than the rest. You can see in the image below that the object with the green plotted center point is the largest and most misshapen. And, it’s curious to see that there is a small cell with a very large percentage of black within its circle area. Likely, this is a slender oval, and perhaps it represents cellular material from a no longer intact cell. Due to the red cluster being so small, it's hard to identify which object this represents visually. It's possible we could color this particular object distinctly in the future to identify it. Before any such work, we want to review our work again with one of DeNovix's cell biologists, so we can focus our efforts where useful.
 
 <img src="../data/image_cluster.png" width="900">
 
@@ -114,3 +117,9 @@ This work would not have been possible without the data and guidance provided by
 We'd also like to thank Professor Phil Bogden for teaching us the methods applied in this project and for providing the impetus to make this happen.
 
 Lastly, we are grateful to the creators and contributors of Python, Pandas, Scikit-Learn, Matplotlib, Numpy, and OpenCV. To paraphrase Isaac Newton: if we have seen cells with greater insight, it is only by leveraging the work of giant computer scientists.
+
+## Note on next steps
+
+The largest divergence between our first principles approach and DeNovix's conventional algorithm is that we count clumped cells as one object, whereas they count the number of circular shapes identifiable in such a clump. This means that our algorithm is more accurate at counting tumorspheres, and DeNovix's existing approach works better for other cell lines. We can likely refine our approach further by engineering a feature that measures the grey pixels between circular objects to distinguish between tumorspheres and clumped neighborhoods of cells.
+
+Once again, it's worth acknowledging that our most important next step is to engage in additional review cycles with the DeNovix product development team.

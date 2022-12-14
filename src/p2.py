@@ -24,6 +24,4 @@ ax.set_xticks(x_locations, labels)
 ax.set_ylabel('Pixel Count')
 ax.set_xlabel('Pixel Intensity (scaled 0 to 1)')
 fig.suptitle('Pixel Intensity Histogram by Imaging Method')
-fig.savefig('figs/pixel_intensity_hist_by_imaging_method.png')
-
-plt.show()
+fig.savefig('figs/Pixel_Intensity_Hist_by_Imaging_Method.png')
