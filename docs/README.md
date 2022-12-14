@@ -123,3 +123,7 @@ Lastly, we are grateful to the creators and contributors of Python, Pandas, Scik
 The largest divergence between our first principles approach and DeNovix's conventional algorithm is that we count clumped cells as one object, whereas they count the number of circular shapes identifiable in such a clump. This means that our algorithm is more accurate at counting tumorspheres, and DeNovix's existing approach works better for other cell lines. We can likely refine our approach further by engineering a feature that measures the grey pixels between circular objects to distinguish between tumorspheres and clumped neighborhoods of cells.
 
 Once again, it's worth acknowledging that our most important next step is to engage in additional review cycles with the DeNovix product development team.
+
+## Note on privacy
+
+Please do not share these data and approaches, as they are proprietary and represent intellectual property we are developing in partnership with DeNovix, Inc.
